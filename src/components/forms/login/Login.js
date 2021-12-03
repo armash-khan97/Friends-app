@@ -55,17 +55,17 @@ const Login = () => {
 
       <Form.Item>
         <Button type="primary" htmlType="submit" className="login-form-button">
-         <a href='about'> Log in</a>
+         <a href='home'> Log in</a>
         </Button>
         <br/>
         <Button type="primary" htmlType="submit" className="login-form-button">
-         <a href='/'> Sing up</a>
+         <a href='about'> Sing up</a>
         </Button>
       </Form.Item>
     </Form>
   );
 };
 
-// ReactDOM.render(<NormalLoginForm />, mountNode);
+// ReactDOM.render(<Login />, mountNode);
 
 export default Login;

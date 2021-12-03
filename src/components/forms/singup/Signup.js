@@ -1,13 +1,23 @@
 import { Form, Input, Button } from 'antd';
+import { useState } from 'react';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { auth } from '../../../config/Firebase'
 import './Singup.css'
 
 const Signup = () => {
-  const onFinish = (values) => {
-    console.log('Success:', values);
-  };
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+  const singupHandler = async () => {
+    try {
+      const user = await createUserWithEmailAndPassword(auth, name, email, password );
+      console.log(user)
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
@@ -22,11 +32,11 @@ const Signup = () => {
       initialValues={{
         remember: true,
       }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
+      // onFinish={onFinish}
+      // onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
-    <h2> Please Sing up </h2>
+      <h2> Please Sing up </h2>
       <Form.Item
         label="First & Last Name"
         name="name"
@@ -37,7 +47,10 @@ const Signup = () => {
           },
         ]}
       >
-        <Input />
+        <Input onChange={(e) => {
+          setName(e.target.value);
+        }
+        } />
       </Form.Item>
 
       <Form.Item
@@ -50,7 +63,10 @@ const Signup = () => {
           },
         ]}
       >
-        <Input />
+        <Input onChange={(e) => {
+          setEmail(e.target.value);
+        }
+        } />
       </Form.Item>
 
       <Form.Item
@@ -63,7 +79,10 @@ const Signup = () => {
           },
         ]}
       >
-        <Input.Password />
+        <Input.Password  onChange={(e) => {
+          setPassword(e.target.value);
+        }
+        }/>
       </Form.Item>
 
       {/* <Form.Item
@@ -83,15 +102,15 @@ const Signup = () => {
           span: 16,
         }}
       >
-        <Button type="primary" htmlType="submit">
+        <Button onClick={singupHandler} type="primary" htmlType="submit">
           Submit
         </Button>
       </Form.Item>
     </Form>
   );
+
+
+  // ReactDOM.render(<Demo />, mountNode);
+
 };
-
-// ReactDOM.render(<Demo />, mountNode);
-
-
 export default Signup;
