@@ -1,5 +1,7 @@
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import 'antd/dist/antd.css';
+
 import './Login.css'
 
 const Login = () => {
@@ -26,7 +28,7 @@ const Login = () => {
         ]}
         className="email"
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Useremail" />
+        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="email" />
       </Form.Item>
       <Form.Item
         name="password"
@@ -59,7 +61,7 @@ const Login = () => {
         </Button>
         <br/>
         <Button type="primary" htmlType="submit" className="login-form-button">
-         <a href='about'> Sing up</a>
+         <a href='signup'> Sing up</a>
         </Button>
       </Form.Item>
     </Form>

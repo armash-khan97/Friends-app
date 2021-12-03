@@ -1,17 +1,18 @@
 import { Form, Input, Button } from 'antd';
 import { useState } from 'react';
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import { auth } from '../../../config/Firebase'
-import './Singup.css'
+// import { useNavigate } from "react-router-dom";
+import 'antd/dist/antd.css';
+import { auth } from '../../../config/Firebase';
+import './Signup.css'
 
 const Signup = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const singupHandler = async () => {
+  const SignupHandler = async () => {
     try {
       const user = await createUserWithEmailAndPassword(auth, name, email, password );
       console.log(user)
@@ -102,7 +103,7 @@ const Signup = () => {
           span: 16,
         }}
       >
-        <Button onClick={singupHandler} type="primary" htmlType="submit">
+        <Button onClick={SignupHandler} type="primary" htmlType="submit">
           Submit
         </Button>
       </Form.Item>
