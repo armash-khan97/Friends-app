@@ -1,20 +1,25 @@
+import { useNavigate } from "react-router-dom";
 import { Form, Input, Button } from 'antd';
 import { useState } from 'react';
 import { createUserWithEmailAndPassword } from "firebase/auth";
-// import { useNavigate } from "react-router-dom";
 import 'antd/dist/antd.css';
 import { auth } from '../../../config/Firebase';
-import './Signup.css'
+import './Signup.css' 
 
 const Signup = () => {
-  // const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate()
+  // const [name, setName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userPass, setUserPass] = useState("");
 
-  const SignupHandler = async () => {
+  const SignupHandler = async () =>   {
     try {
-      const user = await createUserWithEmailAndPassword(auth, name, email, password );
+      const user = await createUserWithEmailAndPassword(auth,  userEmail, userPass );
+      if(user)
+      {
+        navigate('/')
+  
+      }; 
       console.log(user)
     } catch (error) {
       console.log(error.message);
@@ -40,7 +45,7 @@ const Signup = () => {
       <h2> Please Sing up </h2>
       <Form.Item
         label="First & Last Name"
-        name="name"
+        name="Username"
         rules={[
           {
             required: true,
@@ -48,15 +53,12 @@ const Signup = () => {
           },
         ]}
       >
-        <Input onChange={(e) => {
-          setName(e.target.value);
-        }
-        } />
+        <Input  />
       </Form.Item>
 
       <Form.Item
         label="Email"
-        name="email"
+        name="userE mail"
         rules={[
           {
             required: true,
@@ -65,14 +67,14 @@ const Signup = () => {
         ]}
       >
         <Input onChange={(e) => {
-          setEmail(e.target.value);
+          setUserEmail(e.target.value);
         }
         } />
       </Form.Item>
 
       <Form.Item
         label="Password"
-        name="password"
+        name="UserPass"
         rules={[
           {
             required: true,
@@ -81,7 +83,7 @@ const Signup = () => {
         ]}
       >
         <Input.Password  onChange={(e) => {
-          setPassword(e.target.value);
+          setUserPass(e.target.value);
         }
         }/>
       </Form.Item>

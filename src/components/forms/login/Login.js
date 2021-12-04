@@ -1,13 +1,32 @@
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../../../config/Firebase';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import 'antd/dist/antd.css';
-
 import './Login.css'
 
 const Login = () => {
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+  const navigate = useNavigate()
+  const [userLoginEmail, setUserLoginEmail] = useState('');
+  const [userLoginPass, setUserLoginPass] = useState('');
+
+  const LoginHandler = async() => {
+    try{
+      const LoginUser = await signInWithEmailAndPassword(auth, userLoginEmail, userLoginPass);
+     if( LoginUser)
+      {
+       navigate('/home')
+
+      };
+     console.log(LoginUser)
+   } catch(error)
+    {
+     console.log(error.message)
+    }
   };
+ 
 
   return (
     <Form
@@ -16,10 +35,11 @@ const Login = () => {
       initialValues={{
         remember: true,
       }}
-      onFinish={onFinish}
+      // onFinish={onFinish}
+      autoComplete="off"
     >
       <Form.Item
-        name="Email"
+        name="userLoginEmail"
         rules={[
           {
             required: true,
@@ -28,10 +48,13 @@ const Login = () => {
         ]}
         className="email"
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="email" />
+        <Input  onChange={(e) => {
+          setUserLoginEmail(e.target.value)
+          }}
+         prefix={<UserOutlined className="site-form-item-icon" />} placeholder="email" />
       </Form.Item>
       <Form.Item
-        name="password"
+        name="userLoginPass"
         rules={[
           {
             required: true,
@@ -39,7 +62,7 @@ const Login = () => {
           },
         ]}
       >
-        <Input.Password
+        <Input.Password  onChange={(e) => {setUserLoginPass(e.target.value)}}
           prefix={<LockOutlined className="site-form-item-icon" />}
           type="password"
           placeholder="Password"
@@ -56,8 +79,9 @@ const Login = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
-         <a href='home'> Log in</a>
+        <Button onClick={LoginHandler} type="primary"
+         htmlType="submit" className="login-form-button">
+         Log in
         </Button>
         <br/>
         <Button type="primary" htmlType="submit" className="login-form-button">
@@ -68,6 +92,6 @@ const Login = () => {
   );
 };
 
-// ReactDOM.render(<Login />, mountNode);
 
 export default Login;
+

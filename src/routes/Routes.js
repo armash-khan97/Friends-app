@@ -7,9 +7,9 @@ import Home from "../components/home/Home";
 const Routes = () => {
     return (  
         <AppRoutes>
-          <Route path="login" element={<Login />} />
-          <Route path="Signup" element={<Signup />} />
-          <Route path="home" element={<Home />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/Signup" element={<Signup />} />
+          <Route path="/home" element={<Home />} />
 
         </AppRoutes>
     
