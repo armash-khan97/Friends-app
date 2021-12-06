@@ -84,9 +84,9 @@ const Login = () => {
          Log in
         </Button>
         <br/>
-        <Button type="primary" htmlType="submit" className="login-form-button">
-         <a href='signup'> Sing up</a>
-        </Button>
+          <Button type="primary" htmlType="submit" className="login-form-button">
+          <a href='signup'> Sing up</a>
+          </Button>
       </Form.Item>
     </Form>
   );
