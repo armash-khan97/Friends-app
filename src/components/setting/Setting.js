@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button } from 'antd';
 
 const Setting = () => {
     return (
@@ -32,17 +32,10 @@ const Setting = () => {
         <Input />
       </Form.Item>
 
-      <Form.Item
-        label="Bio"
-        name="bio"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your Bio!',
-          },
-        ]}
-      >
-        <Input />
+      <Form.Item >
+
+      <input type="file" name="myImage" accept="" />
+    
       </Form.Item>
 
       <Form.Item
@@ -55,7 +48,9 @@ const Setting = () => {
           Edit
         </Button>
       </Form.Item>
+      
     </Form>
+    
  
 // ReactDOM.render(<Demo />, mountNode);
     )

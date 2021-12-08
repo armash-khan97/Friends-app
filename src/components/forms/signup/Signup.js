@@ -3,8 +3,9 @@ import { Form, Input, Button } from 'antd';
 import { useState } from 'react';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import 'antd/dist/antd.css';
-import { auth } from '../../../config/Firebase';
-import './Signup.css' 
+import { auth, db } from '../../../config/Firebase';
+import './Signup.css'
+import { doc, setDoc } from "firebase/firestore";
 
 const Signup = () => {
   const navigate = useNavigate()
@@ -12,19 +13,50 @@ const Signup = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userPass, setUserPass] = useState("");
 
-  const SignupHandler = async () =>   {
-    try {
-      const user = await createUserWithEmailAndPassword(auth,  userEmail, userPass );
-      if(user)
-      {
-        navigate('/')
-  
-      }; 
-      console.log(user)
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  // const SignupHandler = async () => {
+  //   try {
+  //     const user = await createUserWithEmailAndPassword(auth, userEmail, userPass);
+  //     if (user) {
+
+  //       // Add a new document in collection "cities"
+  //       setDoc(doc(db, "user", user.user.uid), {
+  //         name: "Los Angeles",
+  //         state: "CA",
+  //         country: "USA"
+  //       });
+  //       navigate('/')
+
+  //     };
+  //     console.log(user)
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
+
+  const onFinish = (values) => {
+    console.log(values)
+    createUserWithEmailAndPassword(auth, values.email, values.password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        setDoc(doc(db, "user", user.uid), {
+                  name: values.name,
+                  email: values.email,
+                  uid:user.uid
+                });
+                navigate('/')
+
+        console.log(user)
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+
+
+  }
 
   return (
     <Form
@@ -38,14 +70,14 @@ const Signup = () => {
       initialValues={{
         remember: true,
       }}
-      // onFinish={onFinish}
+      onFinish={onFinish}
       // onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
       <h2> Please Sing up </h2>
       <Form.Item
         label="First & Last Name"
-        name="Username"
+        name="name"
         rules={[
           {
             required: true,
@@ -53,12 +85,12 @@ const Signup = () => {
           },
         ]}
       >
-        <Input  />
+        <Input />
       </Form.Item>
 
       <Form.Item
         label="Email"
-        name="userE mail"
+        name="email"
         rules={[
           {
             required: true,
@@ -74,7 +106,7 @@ const Signup = () => {
 
       <Form.Item
         label="Password"
-        name="UserPass"
+        name="password"
         rules={[
           {
             required: true,
@@ -82,10 +114,10 @@ const Signup = () => {
           },
         ]}
       >
-        <Input.Password  onChange={(e) => {
+        <Input.Password onChange={(e) => {
           setUserPass(e.target.value);
         }
-        }/>
+        } />
       </Form.Item>
 
       {/* <Form.Item
@@ -105,7 +137,7 @@ const Signup = () => {
           span: 16,
         }}
       >
-        <Button onClick={SignupHandler} type="primary" htmlType="submit">
+        <Button  type="primary" htmlType="submit">
           Submit
         </Button>
       </Form.Item>
